@@ -18,9 +18,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import recognition.Identify_figure;
 import recognition.Read_file;
+import recognition.Vector_direction;
 
 public class GameScreen extends JPanel implements ActionListener{
 		private static final long serialVersionUID = 1L;
@@ -29,6 +33,8 @@ public class GameScreen extends JPanel implements ActionListener{
         ArrayList<Line> lines = new ArrayList<Line>();
         
         ArrayList<Line> figures = new ArrayList<Line>();
+        
+        ArrayList<Vector_direction> directions = new ArrayList<Vector_direction>();
         private Boolean adding_figure = false; 
 	public GameScreen()
 	{      
@@ -106,8 +112,9 @@ public class GameScreen extends JPanel implements ActionListener{
 	    		
 	    		//System.out.println(lines.get(i).x1 + " " + lines.get(i).y1 + " " +
 	    						//   lines.get(i).x2 + " " + lines.get(i).y2);
-
-	    		if(n[0] >= 0 && n[1] >= 0)
+	    		Vector_direction v = new Vector_direction(n[0], n[1]);
+	    		directions.add(v);
+	    		/*if(n[0] >= 0 && n[1] >= 0)
 	    		System.out.println("Right Down" + n[0] + " " + n[1]);
 	    		
 	    		if(n[0] < 0 && n[1] >= 0)
@@ -117,11 +124,20 @@ public class GameScreen extends JPanel implements ActionListener{
 			    System.out.println("Left Up " + n[0] + " " + n[1]);
 	    		
 	    		if(n[0] >= 0 && n[1] < 0)
-			    System.out.println("Right Up " + n[0] + " " + n[1]);
+			    System.out.println("Right Up " + n[0] + " " + n[1]);*/
 	    	}
+	    	Identify_figure i_f = new Identify_figure();
+	    	if(i_f.check_figure(directions) == true)
+	    	{
+	    		JOptionPane.showMessageDialog(null, "Congratulations!!!");
+	    	}
+	    	else
+	    	{
+	    		JOptionPane.showMessageDialog(null, "Figure is not correct! Try again!");
+	    	}
+	    	directions.clear();
 	     	lines.clear();
 	     	repaint();
-	     	
         }
     }
     private double[] normalize_vector(int a, int b)
@@ -162,7 +178,7 @@ public class GameScreen extends JPanel implements ActionListener{
 	           }
 	           if(key == KeyEvent.VK_R)
 	           {
-	        	   Read_file f = new Read_file("D:/square1.txt");
+	        	   
 	           }
 	      }
 	}

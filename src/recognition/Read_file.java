@@ -3,8 +3,12 @@ package recognition;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Read_file {
+	
+	  private ArrayList<Vector_direction> direction_source = new ArrayList<Vector_direction>();
+	  
 	  private double[] normalize_vector(int a, int b)
 	    {
 	    	double[] array = new double[2];
@@ -15,6 +19,15 @@ public class Read_file {
 			array[1] = n2;
 			return array;
 	    }
+	  private void add_line_to_array(double n_x, double n_y)
+	  {
+		  Vector_direction temp_v = new Vector_direction(n_x, n_y);
+		  direction_source.add(temp_v);
+	  }
+	  public Vector_direction get_direction(int index)
+	  {
+		  return direction_source.get(index);
+	  }
 	private void get_vectors(String source_string)
 	{
 		String[] arr = source_string.split(" ");
@@ -24,7 +37,8 @@ public class Read_file {
 			s[i] = Integer.parseInt(arr[i]) ;
 		}
 		double[] n = normalize_vector(s[2]-s[0], s[3] - s[1]);
-		System.out.println("  " + n[0] + " " + n[1]);
+		add_line_to_array(n[0], n[1]);
+		System.out.println("File vector: " + n[0] + " " + n[1]);
 	} 
 	public Read_file(String path)
 	{
