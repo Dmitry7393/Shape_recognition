@@ -2,12 +2,10 @@ package recognition;
 
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
-
 public class Identify_figure {
 	public Boolean check_figure(ArrayList<Vector_direction> array)
 	{
-		Read_file f = new Read_file("D:/square1.txt");
+		Read_file f = new Read_file("Levels/square.txt");
 		double epsilon = 0.03;
 		System.out.println("Points ");
 		int index_source_direction = 0;
@@ -20,7 +18,7 @@ public class Identify_figure {
 			   Math.abs(Math.abs(source_direction.n_y) - Math.abs(array.get(i).n_y)) <= epsilon	)
 			{
 				System.out.println("It is okay! ");
-				//count_wrong_direction = 0;
+				count_wrong_direction = 0;
 			}
 			else
 			{

@@ -126,15 +126,19 @@ public class GameScreen extends JPanel implements ActionListener{
 	    		if(n[0] >= 0 && n[1] < 0)
 			    System.out.println("Right Up " + n[0] + " " + n[1]);*/
 	    	}
-	    	Identify_figure i_f = new Identify_figure();
-	    	if(i_f.check_figure(directions) == true)
+	    	if(adding_figure == false)
 	    	{
-	    		JOptionPane.showMessageDialog(null, "Congratulations!!!");
+	    		Identify_figure i_f = new Identify_figure();
+		    	if(i_f.check_figure(directions) == true)
+		    	{
+		    		JOptionPane.showMessageDialog(null, "Congratulations!!! It Is correct!");
+		    	}
+		    	else
+		    	{
+		    		JOptionPane.showMessageDialog(null, "Figure is not correct! Try again!");
+		    	}
 	    	}
-	    	else
-	    	{
-	    		JOptionPane.showMessageDialog(null, "Figure is not correct! Try again!");
-	    	}
+	    	
 	    	directions.clear();
 	     	lines.clear();
 	     	repaint();
@@ -163,7 +167,7 @@ public class GameScreen extends JPanel implements ActionListener{
 	           int key = e.getKeyCode();
 	           if(key == KeyEvent.VK_SPACE)
 	           {
-	        	   Writer w = new Writer("D:/square1.txt");
+	        	   Writer w = new Writer("Levels/triangle.txt");
 	        	   String str = "";
 	        	   for(int i = 0; i < figures.size(); i++)
 	        	   {
