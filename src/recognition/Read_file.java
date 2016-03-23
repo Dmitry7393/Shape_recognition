@@ -14,12 +14,13 @@ public class Read_file {
 	  private void add_line(String str)
 	  {
 		 	String[] arr = str.split(" ");
-			int[] s = new int[arr.length];
+			double[] s = new double[arr.length];
 			for (int i = 0; i < arr.length; i++)
 			{
-				s[i] = Integer.parseInt(arr[i]) ;
+				s[i] = Double.parseDouble(arr[i]) ;
+				
 			}
-			Line temp_line = new Line(s[0], s[1], s[2], s[3]);
+			Line temp_line = new Line(s[0]/5, s[1]/5, s[2]/5, s[3]/5);
 			lines.add(temp_line);
 	  }
 	  public Line get_line(int index)
@@ -59,10 +60,12 @@ public class Read_file {
 		}
 		double[] n = normalize_vector(s[2]-s[0], s[3] - s[1]);
 		add_line_to_array(n[0], n[1]);
-		System.out.println("File vector: " + n[0] + " " + n[1]);
+		//System.out.println("File vector: " + n[0] + " " + n[1]);
 	} 
 	public Read_file(String path)
 	{
+		direction_source.clear();
+		lines.clear();
 		//Reading from file
 		BufferedReader br = null;
 		try {
@@ -70,7 +73,6 @@ public class Read_file {
 			br = new BufferedReader(new FileReader(path));
 			while ((sCurrentLine = br.readLine()) != null) 
 			{
-				System.out.println(sCurrentLine);
 				add_line(sCurrentLine);
 				get_vectors(sCurrentLine);
 			}

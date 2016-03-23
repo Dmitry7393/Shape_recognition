@@ -13,12 +13,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Line2D;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -36,6 +37,9 @@ public class GameScreen extends JPanel implements ActionListener{
         
         ArrayList<Line> example_lines = new ArrayList<Line>();
         private Boolean adding_figure = false; 
+        
+        private String current_file = "";
+        private int level = 3;
 	public GameScreen()
 	{      
 	    addKeyListener(new TAdapter());
@@ -44,6 +48,46 @@ public class GameScreen extends JPanel implements ActionListener{
 	    setFocusable(true);
 	    setBackground(Color.YELLOW);
 	    setDoubleBuffered(true);
+	    start_game();
+	}
+	private String get_path()
+	{
+		String path = "";
+		File[] files = new File("Levels").listFiles();
+	   	   //If this pathname does not denote a directory, then listFiles() returns null. 
+	   	   for (File file : files) {
+	   	       if (file.isFile()) {
+	   	    	   path = file.getName();
+	   	    	   if(path.startsWith(Integer.toString(level)) == true)
+	   	    	   {
+	   	    		  return path;
+	   	    	   } 
+	   	       }
+	   	   }
+	   	  return "";
+	}
+	private void init_level()
+	{
+		 current_file = "Levels/" + get_path();
+		 System.out.println("current_file " + current_file);
+		 Read_file r = new Read_file(current_file);
+  	     for(int i = 0; i < r.count_lines(); i++)
+  	     {
+  		     Line line = r.get_line(i);
+  	         example_lines.add(line);
+  	     }
+	}
+	private void start_game()
+	{
+   	   init_level();
+	}
+	private void next_level()
+	{
+		level++;
+		example_lines.clear();
+		directions.clear();
+		lines.clear();
+		init_level();
 	}
 		public void paint(Graphics g)
 		{
@@ -52,12 +96,13 @@ public class GameScreen extends JPanel implements ActionListener{
 	        for(int i = 0; i < lines.size(); i++)
 	        {
 	        	g2.setStroke(new BasicStroke(5));
-	        	g2.drawLine(lines.get(i).x1, lines.get(i).y1, lines.get(i).x2, lines.get(i).y2);
+	        	g2.draw(new Line2D.Double(lines.get(i).x1, lines.get(i).y1, lines.get(i).x2, lines.get(i).y2));
+	        //	g2.drawLine(lines.get(i).x1, lines.get(i).y1, lines.get(i).x2, lines.get(i).y2);
 	        }
 	        for(int i = 0; i < figures.size(); i++)
 	        {
 	        	g2.setStroke(new BasicStroke(2));
-	        	g2.drawLine( figures.get(i).x1,  figures.get(i).y1,  figures.get(i).x2,  figures.get(i).y2);
+	        	g2.draw(new Line2D.Double(figures.get(i).x1,  figures.get(i).y1,  figures.get(i).x2,  figures.get(i).y2));
 	        }
 	        if(adding_figure == true)
 	        g2.drawLine(previous_x, previous_y, x, y);
@@ -65,7 +110,7 @@ public class GameScreen extends JPanel implements ActionListener{
 	        for(int i = 0; i < example_lines.size(); i++)
 	        {
 	           	g2.setStroke(new BasicStroke(1));
-	        	g2.drawLine(example_lines.get(i).x1,  example_lines.get(i).y1,  example_lines.get(i).x2,  example_lines.get(i).y2);
+	           	g2.draw(new Line2D.Double(example_lines.get(i).x1,  example_lines.get(i).y1,  example_lines.get(i).x2,  example_lines.get(i).y2));
 	        }
 		}
   
@@ -134,10 +179,11 @@ public class GameScreen extends JPanel implements ActionListener{
 	    	}
 	    	if(adding_figure == false)
 	    	{
-	    		Identify_figure i_f = new Identify_figure();
+	    		Identify_figure i_f = new Identify_figure(current_file);
 		    	if(i_f.check_figure(directions) == true)
 		    	{
 		    		JOptionPane.showMessageDialog(null, "Congratulations!!! It Is correct!");
+		    		next_level();
 		    	}
 		    	else
 		    	{
@@ -150,7 +196,7 @@ public class GameScreen extends JPanel implements ActionListener{
 	     	repaint();
         }
     }
-    private double[] normalize_vector(int a, int b)
+    private double[] normalize_vector(double a, double b)
     {
     	double[] array = new double[2];
 		double s = Math.sqrt(a*a + b*b);
@@ -160,6 +206,7 @@ public class GameScreen extends JPanel implements ActionListener{
 		array[1] = n2;
 		return array;
     }
+
 	private class TAdapter extends KeyAdapter  implements KeyListener //
 	{
 	        public void keyReleased(KeyEvent e)
@@ -173,12 +220,12 @@ public class GameScreen extends JPanel implements ActionListener{
 	           int key = e.getKeyCode();
 	           if(key == KeyEvent.VK_SPACE)
 	           {
-	        	   Writer w = new Writer("Levels/triangle.txt");
+	        	   Writer w = new Writer("Levels/3 - triangle.txt");
 	        	   String str = "";
 	        	   for(int i = 0; i < figures.size(); i++)
 	        	   {
-	        		   str = Integer.toString(figures.get(i).x1)  + " " + Integer.toString(figures.get(i).y1) + 
-	        				   " " + Integer.toString(figures.get(i).x2) + " " + Integer.toString(figures.get(i).y2);
+	        		   str = Integer.toString((int)figures.get(i).x1)  + " " + Integer.toString((int)figures.get(i).y1) + 
+	        				   " " + Integer.toString((int)figures.get(i).x2) + " " + Integer.toString((int)figures.get(i).y2);
 	        		   w.write(str);
 	        	   }
 	           }
@@ -188,15 +235,8 @@ public class GameScreen extends JPanel implements ActionListener{
 	           }
 	           if(key == KeyEvent.VK_F)
 	           {
-	        	   Read_file r = new Read_file("Levels/square.txt");
-	        	   for(int i = 0; i < r.count_lines(); i++)
-	        	   {
-	        		   Line line = r.get_line(i);
-	        	       example_lines.add(line);
-	        	   }
-	        	   repaint(); 	   
+	        	 
 	           }
-	           
 	      }
 	}
 	public static void write_array(String path, String text)

@@ -2,12 +2,12 @@ package user_interface;
 
 public class Line {
 
-	public int x1;
-	public int y1;
+	public double x1;
+	public double y1;
 	
-	public int x2;
-	public int y2;
-	public Line(int a, int b, int c, int d)
+	public double x2;
+	public double y2;
+	public Line(double a, double b, double c, double d)
 	{
 		x1 = a;
 		y1 = b;
