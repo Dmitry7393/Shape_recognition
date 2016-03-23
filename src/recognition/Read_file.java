@@ -28,6 +28,10 @@ public class Read_file {
 	  {
 		  return direction_source.get(index);
 	  }
+	  public int count_lines()
+	  {
+		  return direction_source.size();
+	  }
 	private void get_vectors(String source_string)
 	{
 		String[] arr = source_string.split(" ");

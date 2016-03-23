@@ -14,10 +14,21 @@ public class Identify_figure {
 		int count_wrong_direction = 0;
 		for(int i = 0; i < array.size(); i++)
 		{
-			if(Math.abs(Math.abs(source_direction.n_x) - Math.abs(array.get(i).n_x)) <= epsilon &&
-			   Math.abs(Math.abs(source_direction.n_y) - Math.abs(array.get(i).n_y)) <= epsilon	)
+			if(array.get(i).n_x >= 0 && array.get(i).n_y >= 0)
+    		System.out.println("Right Down" + array.get(i).n_x + " " + array.get(i).n_y);
+    		
+    		if(array.get(i).n_x < 0 && array.get(i).n_y >= 0)
+	    	System.out.println("Left Down " + array.get(i).n_x + " " + array.get(i).n_y);
+    		
+    		if(array.get(i).n_x < 0 && array.get(i).n_y < 0)
+		    System.out.println("Left Up " + array.get(i).n_x + " " + array.get(i).n_y);
+    		
+    		if(array.get(i).n_x >= 0 && array.get(i).n_y < 0)
+		    System.out.println("Right Up " + array.get(i).n_x + " " + array.get(i).n_y);
+			
+    		if(Math.abs(source_direction.n_x - array.get(i).n_x) <= epsilon &&
+			   Math.abs(source_direction.n_y - array.get(i).n_y) <= epsilon	)
 			{
-				System.out.println("It is okay! ");
 				count_wrong_direction = 0;
 			}
 			else
@@ -38,8 +49,12 @@ public class Identify_figure {
 				return false;
 			}
 		}
-		System.out.println("count_wrong_direction " + count_wrong_direction);
-		return true;
+		//We have to check if user drew all lines 
+		System.out.println("index_source_direction " + index_source_direction);
+		if(index_source_direction == f.count_lines()-1)
+			return true;
+		else 
+			return false;
 	}
 	public Identify_figure()
 	{
