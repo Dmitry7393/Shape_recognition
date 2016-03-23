@@ -20,6 +20,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 
+import recognition.Read_file;
+
 public class GameScreen extends JPanel implements ActionListener{
 		private static final long serialVersionUID = 1L;
         private int x, y;
@@ -104,20 +106,19 @@ public class GameScreen extends JPanel implements ActionListener{
 	    		
 	    		//System.out.println(lines.get(i).x1 + " " + lines.get(i).y1 + " " +
 	    						//   lines.get(i).x2 + " " + lines.get(i).y2);
-	    	
+
 	    		if(n[0] >= 0 && n[1] >= 0)
-	    		System.out.println("FIRST " + n[0] + " " + n[1]);
+	    		System.out.println("Right Down" + n[0] + " " + n[1]);
 	    		
-	    		/*if(n1 >= 0 && n2 <= 0)
-		    	System.out.println("SECOND " + n1 + " " + n2);*/
+	    		if(n[0] < 0 && n[1] >= 0)
+		    	System.out.println("Left Down " + n[0] + " " + n[1]);
 	    		
-	    	/*	if(n1 < 0 && n2 < 0)
-			    System.out.println("THIRD " + n1 + " " + n2);
+	    		if(n[0] < 0 && n[1] < 0)
+			    System.out.println("Left Up " + n[0] + " " + n[1]);
 	    		
-	    		if(n1 < 0 && n2 >= 0)
-			    System.out.println("FOURTH " + n1 + " " + n2);*/
+	    		if(n[0] >= 0 && n[1] < 0)
+			    System.out.println("Right Up " + n[0] + " " + n[1]);
 	    	}
-	    	
 	     	lines.clear();
 	     	repaint();
 	     	
@@ -150,13 +151,18 @@ public class GameScreen extends JPanel implements ActionListener{
 	        	   String str = "";
 	        	   for(int i = 0; i < figures.size(); i++)
 	        	   {
-	        		   str = Integer.toString(figures.get(i).x1)  + " " + Integer.toString(figures.get(i).x2);
+	        		   str = Integer.toString(figures.get(i).x1)  + " " + Integer.toString(figures.get(i).y1) + 
+	        				   " " + Integer.toString(figures.get(i).x2) + " " + Integer.toString(figures.get(i).y2);
 	        		   w.write(str);
 	        	   }
 	           }
 	           if(key == KeyEvent.VK_SHIFT)
 	           {
 	        	   adding_figure = true;
+	           }
+	           if(key == KeyEvent.VK_R)
+	           {
+	        	   Read_file f = new Read_file("D:/square1.txt");
 	           }
 	      }
 	}
