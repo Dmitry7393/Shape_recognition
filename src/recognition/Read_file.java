@@ -5,10 +5,27 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import user_interface.Line;
+
 public class Read_file {
 	
 	  private ArrayList<Vector_direction> direction_source = new ArrayList<Vector_direction>();
-	  
+	  private ArrayList<Line> lines = new ArrayList<Line>();
+	  private void add_line(String str)
+	  {
+		 	String[] arr = str.split(" ");
+			int[] s = new int[arr.length];
+			for (int i = 0; i < arr.length; i++)
+			{
+				s[i] = Integer.parseInt(arr[i]) ;
+			}
+			Line temp_line = new Line(s[0], s[1], s[2], s[3]);
+			lines.add(temp_line);
+	  }
+	  public Line get_line(int index)
+	  {
+		  return lines.get(index);
+	  }
 	  private double[] normalize_vector(int a, int b)
 	    {
 	    	double[] array = new double[2];
@@ -54,6 +71,7 @@ public class Read_file {
 			while ((sCurrentLine = br.readLine()) != null) 
 			{
 				System.out.println(sCurrentLine);
+				add_line(sCurrentLine);
 				get_vectors(sCurrentLine);
 			}
 		} catch (IOException e) {

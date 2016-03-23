@@ -31,10 +31,10 @@ public class GameScreen extends JPanel implements ActionListener{
         private int x, y;
         int previous_x, previous_y;
         ArrayList<Line> lines = new ArrayList<Line>();
-        
         ArrayList<Line> figures = new ArrayList<Line>();
-        
         ArrayList<Vector_direction> directions = new ArrayList<Vector_direction>();
+        
+        ArrayList<Line> example_lines = new ArrayList<Line>();
         private Boolean adding_figure = false; 
 	public GameScreen()
 	{      
@@ -61,6 +61,12 @@ public class GameScreen extends JPanel implements ActionListener{
 	        }
 	        if(adding_figure == true)
 	        g2.drawLine(previous_x, previous_y, x, y);
+	        
+	        for(int i = 0; i < example_lines.size(); i++)
+	        {
+	           	g2.setStroke(new BasicStroke(1));
+	        	g2.drawLine(example_lines.get(i).x1,  example_lines.get(i).y1,  example_lines.get(i).x2,  example_lines.get(i).y2);
+	        }
 		}
   
         public void actionPerformed(ActionEvent e)
@@ -180,10 +186,17 @@ public class GameScreen extends JPanel implements ActionListener{
 	           {
 	        	   adding_figure = true;
 	           }
-	           if(key == KeyEvent.VK_R)
+	           if(key == KeyEvent.VK_F)
 	           {
-	        	   
+	        	   Read_file r = new Read_file("Levels/square.txt");
+	        	   for(int i = 0; i < r.count_lines(); i++)
+	        	   {
+	        		   Line line = r.get_line(i);
+	        	       example_lines.add(line);
+	        	   }
+	        	   repaint(); 	   
 	           }
+	           
 	      }
 	}
 	public static void write_array(String path, String text)
