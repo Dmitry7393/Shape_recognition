@@ -40,13 +40,16 @@ public class GameScreen extends JPanel implements ActionListener{
         
         private String current_file = "";
         private int level = 1;
+        private int max_level = 3;
 	public GameScreen()
 	{      
 	    addKeyListener(new TAdapter());
 	    addMouseListener(new CustomListener());
 	    addMouseMotionListener(new CustomListener());
 	    setFocusable(true);
-	    setBackground(Color.YELLOW);
+	   // Color color1 = new Color(127, 255, 212);
+	    Color color2 = new Color(251,	236,	93);
+	    setBackground(color2);
 	    setDoubleBuffered(true);
 	    start_game();
 	}
@@ -167,7 +170,8 @@ public class GameScreen extends JPanel implements ActionListener{
 		    	if(i_f.check_figure(directions) == true)
 		    	{
 		    		JOptionPane.showMessageDialog(null, "Congratulations!!! It Is correct!");
-		    		next_level();
+		    		if(level < max_level) 
+		    		  next_level();
 		    	}
 		    	else
 		    	{

@@ -40,7 +40,7 @@ public class Identify_figure {
 				count_wrong_direction++;
 				//System.out.println("It is not okay! ");
 			}
-			if(count_wrong_direction == 10)
+			if(count_wrong_direction == 5)
 			{
 				index_source_direction++;
 				if(index_source_direction == f.count_lines()) return false;
@@ -48,7 +48,7 @@ public class Identify_figure {
 				i = i - 5;
 				count_wrong_direction = 0;
 			}
-			if(count_wrong_direction == 15)
+			if(count_wrong_direction == 10)
 			{
 				return false;
 			}
