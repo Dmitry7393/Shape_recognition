@@ -21,7 +21,7 @@ public class Identify_figure {
 	public Boolean check_figure(ArrayList<Vector_direction> array)
 	{
 		Read_file f = new Read_file(path_example);
-		double epsilon = 0.4;
+		double epsilon = 0.2;
 		System.out.println("Points ");
 		int index_source_direction = 0;
 		Vector_direction source_direction = f.get_direction(index_source_direction);
@@ -40,7 +40,7 @@ public class Identify_figure {
 				count_wrong_direction++;
 				//System.out.println("It is not okay! ");
 			}
-			if(count_wrong_direction == 5)
+			if(count_wrong_direction == 10)
 			{
 				index_source_direction++;
 				if(index_source_direction == f.count_lines()) return false;
@@ -48,7 +48,7 @@ public class Identify_figure {
 				i = i - 5;
 				count_wrong_direction = 0;
 			}
-			if(count_wrong_direction == 12)
+			if(count_wrong_direction == 15)
 			{
 				return false;
 			}

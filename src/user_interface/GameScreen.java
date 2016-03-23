@@ -39,7 +39,7 @@ public class GameScreen extends JPanel implements ActionListener{
         private Boolean adding_figure = false; 
         
         private String current_file = "";
-        private int level = 3;
+        private int level = 1;
 	public GameScreen()
 	{      
 	    addKeyListener(new TAdapter());
@@ -97,7 +97,6 @@ public class GameScreen extends JPanel implements ActionListener{
 	        {
 	        	g2.setStroke(new BasicStroke(5));
 	        	g2.draw(new Line2D.Double(lines.get(i).x1, lines.get(i).y1, lines.get(i).x2, lines.get(i).y2));
-	        //	g2.drawLine(lines.get(i).x1, lines.get(i).y1, lines.get(i).x2, lines.get(i).y2);
 	        }
 	        for(int i = 0; i < figures.size(); i++)
 	        {
@@ -113,7 +112,6 @@ public class GameScreen extends JPanel implements ActionListener{
 	           	g2.draw(new Line2D.Double(example_lines.get(i).x1,  example_lines.get(i).y1,  example_lines.get(i).x2,  example_lines.get(i).y2));
 	        }
 		}
-  
         public void actionPerformed(ActionEvent e)
         {
             repaint();  
@@ -160,22 +158,8 @@ public class GameScreen extends JPanel implements ActionListener{
 	    	for(int i = 0; i < lines.size(); i++)
 	    	{
 	    		double[] n = normalize_vector(lines.get(i).x2 - lines.get(i).x1, lines.get(i).y2 - lines.get(i).y1);
-	    		
-	    		//System.out.println(lines.get(i).x1 + " " + lines.get(i).y1 + " " +
-	    						//   lines.get(i).x2 + " " + lines.get(i).y2);
 	    		Vector_direction v = new Vector_direction(n[0], n[1]);
 	    		directions.add(v);
-	    		/*if(n[0] >= 0 && n[1] >= 0)
-	    		System.out.println("Right Down" + n[0] + " " + n[1]);
-	    		
-	    		if(n[0] < 0 && n[1] >= 0)
-		    	System.out.println("Left Down " + n[0] + " " + n[1]);
-	    		
-	    		if(n[0] < 0 && n[1] < 0)
-			    System.out.println("Left Up " + n[0] + " " + n[1]);
-	    		
-	    		if(n[0] >= 0 && n[1] < 0)
-			    System.out.println("Right Up " + n[0] + " " + n[1]);*/
 	    	}
 	    	if(adding_figure == false)
 	    	{
@@ -190,7 +174,6 @@ public class GameScreen extends JPanel implements ActionListener{
 		    		JOptionPane.showMessageDialog(null, "Figure is not correct! Try again!");
 		    	}
 	    	}
-	    	
 	    	directions.clear();
 	     	lines.clear();
 	     	repaint();
@@ -206,7 +189,6 @@ public class GameScreen extends JPanel implements ActionListener{
 		array[1] = n2;
 		return array;
     }
-
 	private class TAdapter extends KeyAdapter  implements KeyListener //
 	{
 	        public void keyReleased(KeyEvent e)
@@ -232,10 +214,6 @@ public class GameScreen extends JPanel implements ActionListener{
 	           if(key == KeyEvent.VK_SHIFT)
 	           {
 	        	   adding_figure = true;
-	           }
-	           if(key == KeyEvent.VK_F)
-	           {
-	        	 
 	           }
 	      }
 	}
