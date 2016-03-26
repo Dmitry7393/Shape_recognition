@@ -40,8 +40,8 @@ public class GameScreen extends JPanel implements ActionListener{
         private Boolean adding_figure = false; 
         
         private String current_file = "";
-        private int level = 5;
-        private int max_level = 5;
+        private int level = 3;
+        private int max_level = 3;
         
         private String new_figure = "Levels/5 - star.txt";
 	public GameScreen()
@@ -75,7 +75,6 @@ public class GameScreen extends JPanel implements ActionListener{
 	private void init_level()
 	{
 		 current_file = "Levels/" + get_path();
-		 System.out.println("current_file " + current_file);
 		 Read_file r = new Read_file(current_file);
   	     for(int i = 0; i < r.count_lines(); i++)
   	     {
@@ -124,6 +123,11 @@ public class GameScreen extends JPanel implements ActionListener{
 		{
 			d_n_x = directions.get(i).n_x;
 			d_n_y = directions.get(i).n_y;
+			if(d_n_x != -1.0 && d_n_x != 0.0 && d_n_x != 1.0 &&
+			   d_n_y != -1.0 && d_n_y != 0.0 && d_n_y != 1.0)
+			{
+				new_lines.add(lines.get(i));
+			}
 			if((d_n_x == -1.0 || d_n_x == 0.0 || d_n_x == 1.0) &&
 			   (d_n_y == -1.0 || d_n_y == 0.0 || d_n_y == 1.0))
 			{
