@@ -55,7 +55,7 @@ public class Identify_figure {
 				i = i - 5;
 				count_wrong_direction = 0;
 			}
-			if(count_wrong_direction == 10)
+			if(count_wrong_direction == 12)
 			{
 				System.out.println(" return false ");
 				return false;
