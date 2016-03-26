@@ -32,12 +32,18 @@ public class Identify_figure {
 			temp1 = f2.get_direction(i);
 			count_wrong = 0;
 			count_correct = 0;
+			double s_n_x = 0; //source figure
+			double s_n_y = 0;
+			double p_n_x = 0;
+			double p_n_y = 0;
 			for(int j = 0; j < player_direction.size(); j++)
 			{
-				//System.out.println("player_direction: " + player_direction.get(j).n_x +
-				//		" " + player_direction.get(j).n_y);
-				if(Math.abs(temp1.n_x - player_direction.get(j).n_x) <= epsilon &&
-				   Math.abs(temp1.n_y - player_direction.get(j).n_y) <= epsilon	)
+				s_n_x = temp1.n_x;
+				s_n_y = temp1.n_y;
+				p_n_x = player_direction.get(j).n_x;
+				p_n_y = player_direction.get(j).n_y;
+				if(Math.abs( s_n_x - p_n_x) <= epsilon &&
+				   Math.abs( s_n_y - p_n_y) <= epsilon	)
 				{
 					count_correct++;
 				}
@@ -47,7 +53,6 @@ public class Identify_figure {
 				}
 			}
 			if(count_correct > count_wrong-2) return i;
-		
 		}
 		return -1;
 	}
@@ -58,7 +63,12 @@ public class Identify_figure {
 		System.out.println("check_figure --------------");
 		int index_source_direction = 0;
 		int count_wrong_direction = 0;
-		
+		/*Vector_direction temp2;
+		for(int i = 0; i < f.count_lines(); i++)
+		{
+			temp2 = f.get_direction(i);
+			System.out.println("source_directions: " + temp2.n_x + " " + temp2.n_y);
+		}*/
 		//Get the first 10 elements in direct_list to receive source_direction
 		 ArrayList<Vector_direction> temp_dir = new ArrayList<Vector_direction>();
 		 if(array.size() > 11)
@@ -73,7 +83,15 @@ public class Identify_figure {
 		 index_source_direction = choose_source_direction(temp_dir);
 		 temp_dir.clear();
 		 System.out.println("index_source_direction " + index_source_direction);
-			if(index_source_direction == -1) return false;
+		 if(index_source_direction == -1)
+		 {
+			 for(int z = 0; z < array.size(); z++)
+			 {
+				 System.out.println(array.get(z).n_x + "  " + array.get(z).n_y);
+			 }
+			 System.out.println("index_source_direction = -1 - exit ");
+		     return false;
+		 }
 		Vector_direction source_direction = f.get_direction(index_source_direction);
 		int current_i_wrong = 0 ;
 		int count_sides = f.count_lines()-1;

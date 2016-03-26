@@ -40,8 +40,8 @@ public class GameScreen extends JPanel implements ActionListener{
         private Boolean adding_figure = false; 
         
         private String current_file = "";
-        private int level = 3;
-        private int max_level = 3;
+        private int level = 1;
+        private int max_level = 5;
         
         private String new_figure = "Levels/5 - star.txt";
 	public GameScreen()
