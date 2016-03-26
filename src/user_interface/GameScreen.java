@@ -40,10 +40,10 @@ public class GameScreen extends JPanel implements ActionListener{
         private Boolean adding_figure = false; 
         
         private String current_file = "";
-        private int level = 1;
-        private int max_level = 3;
+        private int level = 5;
+        private int max_level = 5;
         
-        private String new_figure = "Levels/4 - r.txt";
+        private String new_figure = "Levels/5 - new.txt";
 	public GameScreen()
 	{      
 	    addKeyListener(new TAdapter());
@@ -103,14 +103,14 @@ public class GameScreen extends JPanel implements ActionListener{
 					+ " " + array.get(i).n_y);
 		}
 	}
-	private void show_new_lines()
+	private void show_new_lines(ArrayList<Line> array, String name_arraylist)
 	{
-		System.out.println("new lines ------------");
+		System.out.println("-----------------------------------------");
 		for(int i = 0; i < new_lines.size(); i++)
 		{
-			System.out.println("new_line " + "[" + i + "] = " + new_lines.get(i).x1
-					 + " " +	new_lines.get(i).y1 + " " 
-					+ new_lines.get(i).x2 + " " + new_lines.get(i).y2	);
+			System.out.println("name_arraylist: " + "[" + i + "] = " + array.get(i).x1
+					 + " " +	array.get(i).y1 + " " 
+					+ array.get(i).x2 + " " + array.get(i).y2	);
 		}
 	}
 	private void correct_directions()
@@ -124,11 +124,6 @@ public class GameScreen extends JPanel implements ActionListener{
 		{
 			d_n_x = directions.get(i).n_x;
 			d_n_y = directions.get(i).n_y;
-			/*if((d_n_x != -1.0 || d_n_x != 0.0 || d_n_x != 1.0) &&
-			   (d_n_y != -1.0 || d_n_y != 0.0 || d_n_y != 1.0))
-			{
-				new_lines.add(lines.get(i));
-			}*/
 			if((d_n_x == -1.0 || d_n_x == 0.0 || d_n_x == 1.0) &&
 			   (d_n_y == -1.0 || d_n_y == 0.0 || d_n_y == 1.0))
 			{
@@ -136,12 +131,11 @@ public class GameScreen extends JPanel implements ActionListener{
 				if(fix_position == false)
 				{
 					r_i = i;
-					System.out.println("r_i: " + r_i);
 					fix_position = true;
 				}
 				count_repeat++;
 			}
-			if(count_repeat == 10)
+			if(count_repeat == 5)
 			{
 				Line l1 = new Line(lines.get(r_i).x1, lines.get(r_i).y1, lines.get(i).x2, lines.get(i).y2);
 				new_lines.add(l1);
@@ -149,7 +143,6 @@ public class GameScreen extends JPanel implements ActionListener{
 				fix_position = false;
 			}
 		}
-	//	show_new_lines();
 	}
 		public void paint(Graphics g)
 		{
@@ -223,6 +216,7 @@ public class GameScreen extends JPanel implements ActionListener{
 	    		Vector_direction v = new Vector_direction(n[0], n[1]);
 	    		directions.add(v);
 	    	}
+	    //	show_directions(directions, "directions: ");
 	    	if(adding_figure == false)
 	    	{
 	    		correct_directions();
@@ -232,7 +226,7 @@ public class GameScreen extends JPanel implements ActionListener{
 		    		Vector_direction v = new Vector_direction(n[0], n[1]);
 		    		new_directions.add(v);
 		    	}
-	    		show_directions(new_directions, "new_directions ");
+	    	//	show_directions(new_directions, "new_directions ");
 	    		Identify_figure i_f = new Identify_figure(current_file);
 		    	if(i_f.check_figure(new_directions) == true)
 		    	{

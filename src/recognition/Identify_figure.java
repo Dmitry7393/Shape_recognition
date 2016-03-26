@@ -18,10 +18,17 @@ public class Identify_figure {
 		if(array.get(i).n_x >= 0 && array.get(i).n_y < 0)
 	    System.out.println(str + " Right Up " + array.get(i).n_x + " " + array.get(i).n_y);
 	}
+	
 	public Boolean check_figure(ArrayList<Vector_direction> array)
 	{
 		Read_file f = new Read_file(path_example);
-		double epsilon = 0.3;
+		double epsilon = 0.15;
+		Vector_direction temp1;
+		for(int i = 0; i < f.count_lines(); i++)
+		{
+			temp1 = f.get_direction(i);
+			System.out.println("source_directions: " + temp1.n_x + " " + temp1.n_y);
+		}
 		System.out.println("Points --------------");
 		int index_source_direction = 0;
 		Vector_direction source_direction = f.get_direction(index_source_direction);
@@ -38,12 +45,11 @@ public class Identify_figure {
 			{
 				show_debug(array, i, "not correct");
 				count_wrong_direction++;
-				//System.out.println("It is not okay! ");
 			}
 			if(count_wrong_direction == 5)
 			{
 				index_source_direction++;
-				//System.out.println(" move to next side of figure ");
+				System.out.println(" move to next side of figure ");
 				if(index_source_direction == f.count_lines()) return false;
 				source_direction = f.get_direction(index_source_direction);
 				i = i - 5;
