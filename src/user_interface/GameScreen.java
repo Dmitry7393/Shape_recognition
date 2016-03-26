@@ -43,7 +43,7 @@ public class GameScreen extends JPanel implements ActionListener{
         private int level = 5;
         private int max_level = 5;
         
-        private String new_figure = "Levels/5 - new.txt";
+        private String new_figure = "Levels/5 - new_figure.txt";
 	public GameScreen()
 	{      
 	    addKeyListener(new TAdapter());

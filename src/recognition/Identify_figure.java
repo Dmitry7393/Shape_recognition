@@ -49,7 +49,7 @@ public class Identify_figure {
 			if(count_wrong_direction == 5)
 			{
 				index_source_direction++;
-				System.out.println(" move to next side of figure ");
+				System.out.println(" move to next side of figure " + index_source_direction);
 				if(index_source_direction == f.count_lines()) return false;
 				source_direction = f.get_direction(index_source_direction);
 				i = i - 5;
