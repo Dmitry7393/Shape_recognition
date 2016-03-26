@@ -32,15 +32,18 @@ public class GameScreen extends JPanel implements ActionListener{
         private int x, y;
         int previous_x, previous_y;
         ArrayList<Line> lines = new ArrayList<Line>();
+        ArrayList<Line> new_lines = new ArrayList<Line>();
         ArrayList<Line> figures = new ArrayList<Line>();
         ArrayList<Vector_direction> directions = new ArrayList<Vector_direction>();
-        
+        ArrayList<Vector_direction> new_directions = new ArrayList<Vector_direction>();
         ArrayList<Line> example_lines = new ArrayList<Line>();
         private Boolean adding_figure = false; 
         
         private String current_file = "";
         private int level = 1;
         private int max_level = 3;
+        
+        private String new_figure = "Levels/4 - r.txt";
 	public GameScreen()
 	{      
 	    addKeyListener(new TAdapter());
@@ -91,6 +94,62 @@ public class GameScreen extends JPanel implements ActionListener{
 		directions.clear();
 		lines.clear();
 		init_level();
+	}
+	private void show_directions(ArrayList<Vector_direction> array, String name_arraylist)
+	{
+		for(int i = 0; i < array.size(); i++)
+		{
+			System.out.println(name_arraylist  + "[" + i + "] = " + array.get(i).n_x
+					+ " " + array.get(i).n_y);
+		}
+	}
+	private void show_new_lines()
+	{
+		System.out.println("new lines ------------");
+		for(int i = 0; i < new_lines.size(); i++)
+		{
+			System.out.println("new_line " + "[" + i + "] = " + new_lines.get(i).x1
+					 + " " +	new_lines.get(i).y1 + " " 
+					+ new_lines.get(i).x2 + " " + new_lines.get(i).y2	);
+		}
+	}
+	private void correct_directions()
+	{
+		int r_i = 0;
+		int count_repeat = 0;
+		Boolean fix_position = false;
+		double d_n_x = 0;
+		double d_n_y = 0;
+		for(int i = 0; i < directions.size(); i++)
+		{
+			d_n_x = directions.get(i).n_x;
+			d_n_y = directions.get(i).n_y;
+			/*if((d_n_x != -1.0 || d_n_x != 0.0 || d_n_x != 1.0) &&
+			   (d_n_y != -1.0 || d_n_y != 0.0 || d_n_y != 1.0))
+			{
+				new_lines.add(lines.get(i));
+			}*/
+			if((d_n_x == -1.0 || d_n_x == 0.0 || d_n_x == 1.0) &&
+			   (d_n_y == -1.0 || d_n_y == 0.0 || d_n_y == 1.0))
+			{
+			
+				if(fix_position == false)
+				{
+					r_i = i;
+					System.out.println("r_i: " + r_i);
+					fix_position = true;
+				}
+				count_repeat++;
+			}
+			if(count_repeat == 10)
+			{
+				Line l1 = new Line(lines.get(r_i).x1, lines.get(r_i).y1, lines.get(i).x2, lines.get(i).y2);
+				new_lines.add(l1);
+				count_repeat = 0;
+				fix_position = false;
+			}
+		}
+	//	show_new_lines();
 	}
 		public void paint(Graphics g)
 		{
@@ -166,8 +225,16 @@ public class GameScreen extends JPanel implements ActionListener{
 	    	}
 	    	if(adding_figure == false)
 	    	{
+	    		correct_directions();
+	    		for(int i = 0; i < new_lines.size(); i++)
+		    	{
+		    		double[] n = normalize_vector(new_lines.get(i).x2 - new_lines.get(i).x1, new_lines.get(i).y2 - new_lines.get(i).y1);
+		    		Vector_direction v = new Vector_direction(n[0], n[1]);
+		    		new_directions.add(v);
+		    	}
+	    		show_directions(new_directions, "new_directions ");
 	    		Identify_figure i_f = new Identify_figure(current_file);
-		    	if(i_f.check_figure(directions) == true)
+		    	if(i_f.check_figure(new_directions) == true)
 		    	{
 		    		JOptionPane.showMessageDialog(null, "Congratulations!!! It Is correct!");
 		    		if(level < max_level) 
@@ -179,7 +246,9 @@ public class GameScreen extends JPanel implements ActionListener{
 		    	}
 	    	}
 	    	directions.clear();
+	    	new_directions.clear();
 	     	lines.clear();
+	     	new_lines.clear();
 	     	repaint();
         }
     }
@@ -206,7 +275,7 @@ public class GameScreen extends JPanel implements ActionListener{
 	           int key = e.getKeyCode();
 	           if(key == KeyEvent.VK_SPACE)
 	           {
-	        	   Writer w = new Writer("Levels/3 - triangle.txt");
+	        	   Writer w = new Writer(new_figure);
 	        	   String str = "";
 	        	   for(int i = 0; i < figures.size(); i++)
 	        	   {

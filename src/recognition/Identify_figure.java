@@ -21,8 +21,8 @@ public class Identify_figure {
 	public Boolean check_figure(ArrayList<Vector_direction> array)
 	{
 		Read_file f = new Read_file(path_example);
-		double epsilon = 0.2;
-		System.out.println("Points ");
+		double epsilon = 0.3;
+		System.out.println("Points --------------");
 		int index_source_direction = 0;
 		Vector_direction source_direction = f.get_direction(index_source_direction);
 		int count_wrong_direction = 0;
@@ -43,6 +43,7 @@ public class Identify_figure {
 			if(count_wrong_direction == 5)
 			{
 				index_source_direction++;
+				//System.out.println(" move to next side of figure ");
 				if(index_source_direction == f.count_lines()) return false;
 				source_direction = f.get_direction(index_source_direction);
 				i = i - 5;
@@ -50,11 +51,11 @@ public class Identify_figure {
 			}
 			if(count_wrong_direction == 10)
 			{
+				System.out.println(" return false ");
 				return false;
 			}
 		}
 		//We have to check if user drew all lines 
-		System.out.println("index_source_direction " + index_source_direction);
 		if(index_source_direction == f.count_lines()-1)
 			return true;
 		else 
