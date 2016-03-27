@@ -38,12 +38,12 @@ public class Identify_figure {
 			double p_n_y = 0;
 			for(int j = 0; j < player_direction.size(); j++)
 			{
-				s_n_x = temp1.n_x;
+				s_n_x = temp1.n_x; 
 				s_n_y = temp1.n_y;
 				p_n_x = player_direction.get(j).n_x;
 				p_n_y = player_direction.get(j).n_y;
-				if(Math.abs( s_n_x - p_n_x) <= epsilon &&
-				   Math.abs( s_n_y - p_n_y) <= epsilon	)
+				if((Math.abs(s_n_x - p_n_x) <= epsilon) &&
+				   (Math.abs(s_n_y - p_n_y) <= epsilon)	)
 				{
 					count_correct++;
 				}
@@ -85,17 +85,13 @@ public class Identify_figure {
 		 System.out.println("index_source_direction " + index_source_direction);
 		 if(index_source_direction == -1)
 		 {
-			 for(int z = 0; z < array.size(); z++)
-			 {
-				 System.out.println(array.get(z).n_x + "  " + array.get(z).n_y);
-			 }
 			 System.out.println("index_source_direction = -1 - exit ");
 		     return false;
 		 }
 		Vector_direction source_direction = f.get_direction(index_source_direction);
 		int current_i_wrong = 0 ;
 		int count_sides = f.count_lines()-1;
-		 System.out.println("count_sides " + count_sides);
+		 //System.out.println("count_sides " + count_sides);
 		for(int i = 0; i < array.size(); i++)
 		{
     		if(Math.abs(source_direction.n_x - array.get(i).n_x) <= epsilon &&
@@ -103,11 +99,11 @@ public class Identify_figure {
 			{
 				count_wrong_direction = 0;
 				current_i_wrong = i;
-				show_debug(array, i, "correct");
+				//show_debug(array, i, "correct");
 			}
 			else
 			{
-				show_debug(array, i, "not correct");
+				//show_debug(array, i, "not correct");
 				count_wrong_direction++;
 			}
 			if(count_wrong_direction == 5)
@@ -116,13 +112,13 @@ public class Identify_figure {
 				index_source_direction = choose_source_direction(temp_dir); //like for the first element
 				if(index_source_direction == -1)
 				{
-					System.out.println("-1-1-1-1-1-1-1-1--1-1-1-1-1-1-1-: " + count_sides);
+					System.out.println("index_source_direction = -1 ");
 					return false;
 				}
 				temp_dir.clear();
-				System.out.println("move to next side of figure " + index_source_direction);
+				//System.out.println("move to next side of figure " + index_source_direction);
 				count_sides--;
-				//if(index_source_direction == f.count_lines()) return false;
+				//if(count_sides == 0) return true; //player passed all sides of figure
 				source_direction = f.get_direction(index_source_direction);
 				i = i - 5;
 				count_wrong_direction = 0;
@@ -134,7 +130,7 @@ public class Identify_figure {
 			}
 		}
 		//We have to check if player drew all lines
-		System.out.println("count_sides " + count_sides);
+		System.out.println("count_sides_end " + count_sides);
 		if(count_sides == 0)
 			return true;
 		else 

@@ -41,9 +41,9 @@ public class GameScreen extends JPanel implements ActionListener{
         
         private String current_file = "";
         private int level = 1;
-        private int max_level = 5;
+        private int max_level = 6;
         
-        private String new_figure = "Levels/5 - star.txt";
+        private String new_figure = "Levels/6 - dinosaur.txt";
 	public GameScreen()
 	{      
 	    addKeyListener(new TAdapter());
@@ -234,7 +234,7 @@ public class GameScreen extends JPanel implements ActionListener{
 	    		Identify_figure i_f = new Identify_figure(current_file);
 		    	if(i_f.check_figure(new_directions) == true)
 		    	{
-		    		JOptionPane.showMessageDialog(null, "Congratulations!!! It Is correct!");
+	    			JOptionPane.showMessageDialog(null, "Congratulations!!! It Is correct!");
 		    		if(level < max_level) 
 		    		  next_level();
 		    	}
@@ -242,6 +242,7 @@ public class GameScreen extends JPanel implements ActionListener{
 		    	{
 		    		JOptionPane.showMessageDialog(null, "Figure is not correct! Try again!");
 		    	}
+		    	
 	    	}
 	    	directions.clear();
 	    	new_directions.clear();
