@@ -2,11 +2,10 @@ package recognition;
 
 import java.util.ArrayList;
 
-import user_interface.Line;
 
 public class Identify_figure {
 	private String path_example = "";
-	private void show_debug(ArrayList<Vector_direction> array, int i, String str)
+	/*private void show_debug(ArrayList<Vector_direction> array, int i, String str)
 	{
 		if(array.get(i).n_x >= 0 && array.get(i).n_y >= 0)
 		System.out.println(str + " Right Down " + array.get(i).n_x + " " + array.get(i).n_y);
@@ -19,7 +18,7 @@ public class Identify_figure {
 		
 		if(array.get(i).n_x >= 0 && array.get(i).n_y < 0)
 	    System.out.println(str + " Right Up " + array.get(i).n_x + " " + array.get(i).n_y);
-	}
+	}*/
 	private int choose_source_direction(ArrayList<Vector_direction> player_direction)
 	{
 		Read_file f2 = new Read_file(path_example);
@@ -60,15 +59,14 @@ public class Identify_figure {
 	{
 		Read_file f = new Read_file(path_example);
 		double epsilon = 0.25;
-		System.out.println("check_figure --------------");
 		int index_source_direction = 0;
 		int count_wrong_direction = 0;
-		/*Vector_direction temp2;
+		Vector_direction temp2;
 		for(int i = 0; i < f.count_lines(); i++)
 		{
 			temp2 = f.get_direction(i);
 			System.out.println("source_directions: " + temp2.n_x + " " + temp2.n_y);
-		}*/
+		}
 		//Get the first 10 elements in direct_list to receive source_direction
 		 ArrayList<Vector_direction> temp_dir = new ArrayList<Vector_direction>();
 		 if(array.size() > 11)

@@ -20,6 +20,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -41,16 +43,13 @@ public class GameScreen extends JPanel implements ActionListener{
         
         private String current_file = "";
         private int level = 1;
-        private int max_level = 6;
-        
-        private String new_figure = "Levels/6 - dinosaur.txt";
+        private int max_level;
 	public GameScreen()
 	{      
 	    addKeyListener(new TAdapter());
 	    addMouseListener(new CustomListener());
 	    addMouseMotionListener(new CustomListener());
 	    setFocusable(true);
-	   // Color color1 = new Color(127, 255, 212);
 	    Color color2 = new Color(251,	236,	93);
 	    setBackground(color2);
 	    setDoubleBuffered(true);
@@ -75,6 +74,7 @@ public class GameScreen extends JPanel implements ActionListener{
 	private void init_level()
 	{
 		 current_file = "Levels/" + get_path();
+		 System.out.println("current_file " + current_file);
 		 Read_file r = new Read_file(current_file);
   	     for(int i = 0; i < r.count_lines(); i++)
   	     {
@@ -85,6 +85,12 @@ public class GameScreen extends JPanel implements ActionListener{
 	private void start_game()
 	{
    	   init_level();
+       set_max_level();
+	}
+	private void set_max_level()
+	{
+		max_level = new File("Levels").list().length;
+		System.out.println("max_level " + max_level);
 	}
 	private void next_level()
 	{
@@ -94,64 +100,19 @@ public class GameScreen extends JPanel implements ActionListener{
 		lines.clear();
 		init_level();
 	}
-	private void show_directions(ArrayList<Vector_direction> array, String name_arraylist)
+	/*private void show_directions(ArrayList<Vector_direction> array, String name_arraylist)
 	{
 		for(int i = 0; i < array.size(); i++)
 		{
 			System.out.println(name_arraylist  + "[" + i + "] = " + array.get(i).n_x
 					+ " " + array.get(i).n_y);
 		}
-	}
-	private void show_new_lines(ArrayList<Line> array, String name_arraylist)
-	{
-		System.out.println("-----------------------------------------");
-		for(int i = 0; i < new_lines.size(); i++)
-		{
-			System.out.println("name_arraylist: " + "[" + i + "] = " + array.get(i).x1
-					 + " " +	array.get(i).y1 + " " 
-					+ array.get(i).x2 + " " + array.get(i).y2	);
-		}
-	}
-	private void correct_directions()
-	{
-		int r_i = 0;
-		int count_repeat = 0;
-		Boolean fix_position = false;
-		double d_n_x = 0;
-		double d_n_y = 0;
-		for(int i = 0; i < directions.size(); i++)
-		{
-			d_n_x = directions.get(i).n_x;
-			d_n_y = directions.get(i).n_y;
-			if(d_n_x != -1.0 && d_n_x != 0.0 && d_n_x != 1.0 &&
-			   d_n_y != -1.0 && d_n_y != 0.0 && d_n_y != 1.0)
-			{
-				new_lines.add(lines.get(i));
-			}
-			if((d_n_x == -1.0 || d_n_x == 0.0 || d_n_x == 1.0) &&
-			   (d_n_y == -1.0 || d_n_y == 0.0 || d_n_y == 1.0))
-			{
-			
-				if(fix_position == false)
-				{
-					r_i = i;
-					fix_position = true;
-				}
-				count_repeat++;
-			}
-			if(count_repeat == 5)
-			{
-				Line l1 = new Line(lines.get(r_i).x1, lines.get(r_i).y1, lines.get(i).x2, lines.get(i).y2);
-				new_lines.add(l1);
-				count_repeat = 0;
-				fix_position = false;
-			}
-		}
-	}
+	}*/
 		public void paint(Graphics g)
 		{
 	        super.paint(g);
-	        Graphics2D g2 = (Graphics2D) g;
+	        Graphics2D g2 = (Graphics2D) g;		       
+	        //Draw lines 
 	        for(int i = 0; i < lines.size(); i++)
 	        {
 	        	g2.setStroke(new BasicStroke(5));
@@ -165,6 +126,7 @@ public class GameScreen extends JPanel implements ActionListener{
 	        if(adding_figure == true)
 	        g2.drawLine(previous_x, previous_y, x, y);
 	        
+	        //Draw picture in left top corner
 	        for(int i = 0; i < example_lines.size(); i++)
 	        {
 	           	g2.setStroke(new BasicStroke(1));
@@ -177,6 +139,42 @@ public class GameScreen extends JPanel implements ActionListener{
         }      
     public class CustomListener extends MouseAdapter implements MouseListener, MouseMotionListener                                                                                             
     {      
+    	private void correct_directions()
+    	{
+    		int r_i = 0;
+    		int count_repeat = 0;
+    		Boolean fix_position = false;
+    		double d_n_x = 0;
+    		double d_n_y = 0;
+    		for(int i = 0; i < directions.size(); i++)
+    		{
+    			d_n_x = directions.get(i).n_x;
+    			d_n_y = directions.get(i).n_y;
+    			if(d_n_x != -1.0 && d_n_x != 0.0 && d_n_x != 1.0 &&
+    			   d_n_y != -1.0 && d_n_y != 0.0 && d_n_y != 1.0)
+    			{
+    				new_lines.add(lines.get(i));
+    			}
+    			if((d_n_x == -1.0 || d_n_x == 0.0 || d_n_x == 1.0) &&
+    			   (d_n_y == -1.0 || d_n_y == 0.0 || d_n_y == 1.0))
+    			{
+    			
+    				if(fix_position == false)
+    				{
+    					r_i = i;
+    					fix_position = true;
+    				}
+    				count_repeat++;
+    			}
+    			if(count_repeat == 5)
+    			{
+    				Line l1 = new Line(lines.get(r_i).x1, lines.get(r_i).y1, lines.get(i).x2, lines.get(i).y2);
+    				new_lines.add(l1);
+    				count_repeat = 0;
+    				fix_position = false;
+    			}
+    		}
+    	}
         public void mouseMoved(MouseEvent e){
         }
         public void mouseDragged(MouseEvent e)
@@ -220,7 +218,7 @@ public class GameScreen extends JPanel implements ActionListener{
 	    		Vector_direction v = new Vector_direction(n[0], n[1]);
 	    		directions.add(v);
 	    	}
-	    //	show_directions(directions, "directions: ");
+	    	
 	    	if(adding_figure == false)
 	    	{
 	    		correct_directions();
@@ -230,7 +228,7 @@ public class GameScreen extends JPanel implements ActionListener{
 		    		Vector_direction v = new Vector_direction(n[0], n[1]);
 		    		new_directions.add(v);
 		    	}
-	    	//	show_directions(new_directions, "new_directions ");
+	    		//show_directions(new_directions, "new_directions ");
 	    		Identify_figure i_f = new Identify_figure(current_file);
 		    	if(i_f.check_figure(new_directions) == true)
 		    	{
@@ -274,14 +272,23 @@ public class GameScreen extends JPanel implements ActionListener{
 	           int key = e.getKeyCode();
 	           if(key == KeyEvent.VK_SPACE)
 	           {
-	        	   Writer w = new Writer(new_figure);
-	        	   String str = "";
-	        	   for(int i = 0; i < figures.size(); i++)
-	        	   {
-	        		   str = Integer.toString((int)figures.get(i).x1)  + " " + Integer.toString((int)figures.get(i).y1) + 
-	        				   " " + Integer.toString((int)figures.get(i).x2) + " " + Integer.toString((int)figures.get(i).y2);
-	        		   w.write(str);
-	        	   }
+	       		  JFileChooser fileChooser = new JFileChooser("Levels");
+	       		  if(figures.size() != 0) { //If we drew new figure that we can save to file 
+	       		  	if(fileChooser.showSaveDialog(fileChooser) == JFileChooser.APPROVE_OPTION)
+	       			  {   
+	       		  		   //Choose file to save in directory Levels
+	       				   File file = fileChooser.getSelectedFile();
+			        	   Writer w = new Writer(file.getPath()); //spicify the path to file
+			        	   String str = "";
+			        	   for(int i = 0; i < figures.size(); i++)
+			        	   {
+			        		   str = Integer.toString((int)figures.get(i).x1)  + " " + Integer.toString((int)figures.get(i).y1) + 
+			        				   " " + Integer.toString((int)figures.get(i).x2) + " " + Integer.toString((int)figures.get(i).y2);
+			        		   w.write(str);
+			        	   }
+			        	   max_level++; //increase for current game
+	       			  }
+	       		  }
 	           }
 	           if(key == KeyEvent.VK_SHIFT)
 	           {
@@ -295,9 +302,8 @@ public class GameScreen extends JPanel implements ActionListener{
     	{
     		out.println(text);
     	}
-    	catch (IOException e)
-    	{
-    	    
+    	catch (IOException e){
+    	   
     	}
 	}
 }
